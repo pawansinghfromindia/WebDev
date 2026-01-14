@@ -12,9 +12,9 @@ Left-----Center-----Right
            |
          Bottom    
 ```
+We need to know 2 jargons :
 </details>
 
-We need to know 2 jargons :
 1. **Tags**
 2. **Attributes** 
 
@@ -197,16 +197,51 @@ Just google it when you need.
 </details>
 
 ## Attributes
+
+Attributes are the extra things that we can additionally provide to a tag which help tags to specify structure.
+
 ```html
 <img src="photo.png">
-< a 
+< a href="https://wwww.google.com">
+<button onlick="">
+<input id="username" type="text">
 ```
 <details>
-          <summary> </summary>
+          <summary> Attrubutes </summary>
 
+- In some scenario, tags are not enough to do our job.
+```html
+<!--
+This is okay
+-->
+
+<p> Hello world, We're here to help the community </p> ✔️
+<h1> World Affairs </h1> ✔️
+<b> AI </b> ✔️
+<title> Computer Science </title> ✔️
+
+<!--
+But what about ?
+Does image tag is enough to put image on webpage?
+Ans : No
+-->
+
+<img> photo.png </img>  ❌
+```
+So, Sometime one thing is not enough, so we need attributes.
+
+For that reason, Anything that is associated with tags needs to define, so we defined attribute inside tag.
+
+> Every Tags can have multiple attributes.
+```html
+<input id="username" type="text">
+```
           
 </details>
 
+**HTML**
+1. **Tags** define the structure of webpage
+2. **Attributes** help tags to specifying the definition.
 
 
 
