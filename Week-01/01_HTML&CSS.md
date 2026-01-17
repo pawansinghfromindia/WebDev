@@ -534,5 +534,22 @@ https://harkirat.classx.co.in/
 
 </details>
 
+<details>
+	<summary> A student created this below websites </summary>
 
+https://www.ssgserv.com/about
+
+https://www.linkrush.co.uk/
+
+https://wppool-theta.vercel.app/
+
+https://www.sandrosecashmeregallery.com/
+
+https://batch-system-assignment-eta.vercel.app/
+
+[https://www.lifeinsujud.com/](https://www.lifeinsujud.in/)
+
+He made all of these without using ai and then asking for refferal for a frontend dev
+
+</details>
 
