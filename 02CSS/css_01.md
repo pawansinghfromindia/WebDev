@@ -104,12 +104,84 @@ How to make an element move from left to right on the screen window? <br/>
 - ```<div style="display: flex; justify-content: space-around">``` 
 - ```<div style="display: flex; justify-content: space-evenly">``` 
 
+Can we make ```<div>``` take only space it needs? <br/>
+- Yes, through property ```display : flex;```
+
+```html
+<div style="display : flex;">
+      <div> Zerodha </div>
+      <div> Signup  </div>
+</div> 
+```
+
+```html
+<div>
+      <span> Zerodha </span>
+      <span> Signup  </span>
+</div> 
+```
 
 </details>
 
 
+<details>
+  <summary> <b> <code>display : flex; justify-content : space-between</code>  </b> </summary>
+
+- Apply ```display : flex;``` on parent, makes all ```<div>``` siblings resides in the same line.
+
+```display : flex; justify-content : flex-start``` <br/>
+```display : flex; justify-content : flex-end``` <br/>
+```display : flex; justify-content : center``` <br/>
+```display : flex; justify-content : space-between``` <br/>
+```display : flex; justify-content : space-around``` <br/>
+```display : flex; justify-content : space-evenly``` <br/>
+  
+
+| Dumb Way                    |    Smart Way                                     |
+|-----------------------------|--------------------------------------------------|
+| ```style="float : right"``` | ```display : flex; justify-content : flex-end``` |
+| ```<center> </center>```    | ```display : flex; justify-content : center```   |
+| ```<br/>```                 | ```padding-top : 20px;```                        |
+| ```<button> </button>```    | ```<div>``` style it like a button, ```cursor: pointer; background: blue; font-size: 100; padding: 10px; margin 10px;```
+
+</details>
 
 
+<details>
+  <summary> <b>Zerodha Landing Page</b> </summary>
 
+```html
+<html>
+      <head>
+            <title> Zerodha </title>
+      </head>
+      <body>
+           <div style="display: flex; justify-content: space-between; padding-left: 200px; padding-right: 200px; box-shadow: 2px 1px 2px #eee">
+                   <img src="logo.svg" width="120" height="30px" style="padding-top: 15px"/>
 
+                   <div style="display: flex;">
+                         <div style="padding: 20px; color: #666"> Signup </div>
+                         <div style="padding: 20px; color: #666"> About </div>
+                         <div style="padding: 20px; color: #666"> Product </div>
+                         <div style="padding: 20px; color: #666"> Pricing </div>
+                         <div style="padding: 20px; color: #666"> Support </div>
+                    </div>
+                    <div style="display: flex; justify-content: center; padding-top: 20px;">
+                          <img src="photo.png"/>
+                    </div>
+                    <div style="display: flex; justify-content: center; padding-top: 20px;">
+                          <h1> Invest in everything </h1>
+                    </div>
+                    <div style="display: flex; justify-content: center; padding-top: 12px;">
+                          <h2 style="font-weight: 400; font-size: 100"> Online Platform to invest in stocks </h2>
+                    </div>
+                    <div style="display: flex; justify-content: center; padding-top: 12px;">
+                          <div style="background-color: #387ed1; padding-top: 10px; padding-bottom: 10px; padding-left: 10px; padding-right: 10px; color: white; border-radius: 3px; font-size: 20px; cursor: pointer;"> Signup Now </div>
+                    </div>
+           </div>
+      </body>
+</html>
+```
+
+</details>
 
