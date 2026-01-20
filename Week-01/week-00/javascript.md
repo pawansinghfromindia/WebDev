@@ -402,16 +402,163 @@ Que : If we have only 10 Cores on our machine, will we able to run only 10 proce
 - Something you have heard of **Context Switching**, which basically means Not every process running on our machine needs CPU at all time.
 - So, these CPU Cores might run more than 10 applications on our machine bcuz It can context switch between the processes.
 
+It can't run 2 things at a single time. It is one place, it can run some code at a single time.
+
+If we run 2 NodeJS files processes on our machine at the same time. The single one (core) won't be able to execute them both together. 
+- It might context switch between them.
+- It might run process 1 little bit.
+- Then run process 2 little bit.
+- Then again process 1 little bit.
+- Then again process 2 little bit.
+- and this will goes on so on.
+
+It can't run them parallely. <br/>
+For that one might be running on Core 1 and other running on another Core 2.
+
+> **Single threaded nature of JavaScript. Means JavaScript is always restricted to a single core.**
+
+If you have 10 lines of code in JavaScript, they always run one after another. You can never split your programme into 2 different Cores so that decrease the time of processing by half.
+
+Other languages Java/GoLang/C++, let us to do split load across Cores some how and that way your process become optimal.
+
+**JavaScript**
+- If we have a 20 Core machine on AWS that we rented for 500$ and We're running a NodeJS process there. It is just using one core. 
+- It will give you same performance as if you're renting one small core machine.
+- So, It might make sense to rent one core machine instead of 20 core machine on AWS. bcuz you're not really using the benefits of those 20 cores.
+- If you're using multiple process than it is fine to rent 20 core machine.
+
+We can parallelize the JavaScript somehow using something called [**Cluster Module**](https://nodejs.org/api/cluster.html) 
+
+More practically, JavaScript runs line by line and only one line runs at a time.
+```main.js
+console.log("Hi there");
+console.log(a)
+```
+This uses only single core of your machine.
+
+**Does this means in C++, 2 lines of code run at the same time?**
+- No, if you write sequential code.
+- But C++/Java/Rust let us write code to create threads and in Golang -> Subroutine. which basically means you're splitting your program into 2 thread to use the power of machine with multi-cores.
+
 </details>
 <!----Single Threaded nature of JavaScript----->
 
 <details>
   <summary> <b>Simple Primitive in JavaScript (Numbers, Strings, Boolean)</b> </summary>
 
+- Variables : ```let, var, const```
+- Datatypes : ```String, Number, Boolean```
+- Control Flow : ```if else```
+- Loop : ```for```
+
+Let's write some code :
+
+1. Write a program to greet a given their first name and last name.
+```js
+let first_name = "Rohit";
+let last_name = "Sharma";
+console.log("Hi " + first_name + " " + last_name);
+```
+
+2. Write a program to greets a person based on their gender.(if else)
+```js
+let first_name = "Rohit";
+let last_name = "Sharma";
+let gender = "Female";
+if (gender == "Male") {
+  console.log("Hi " + first_name + " " + last_name);
+}
+else {
+  console.log("Hello " + first_name + " " + last_name);
+}
+```
+
+3. Write a program that prints number 0 to 1000. (for loop)  
+```js
+for (let i = 1; i <= 1000; i++) {
+  const num = i;
+  console.log(num);
+}
+```
+
 </details>
 
 <details>
   <summary> <b>Complex Primitive in JavaScript (Arrays, Objects)</b> </summary>
+
+- Arrays
+- Objects
+
+Let's write code :
+
+1. Write a program that prints all the even numbers in an array.
+
+2. Write a program to print the biggest number in an array.
+
+3. Write a program that prints all the male people's first name given a complete object.
+
+4. Write a program that reverse all the elements of an array.
+
+
+How to write code in JS? <br/>
+What are the construct we need to know to write code in JS?
+
+**Variables**
+- 1st thing/construct is **Variable**. It is across languages.
+```js
+let number = 5;
+```
+```cpp
+int number = 5;
+```
+Variable, the name itself says Its value can change throughout the program.
+- In C++/Java/GoLang/Rust, Variable type can't be change but its value can change.
+- In JavaScript/Python, variable type as well as its value can change.
+
+There are 3 ways to define a variable in JavaScript :
+1. **Let** : original way to define variable
+2. **Var** : Later came into picture
+3. **Const** : Later came into picture
+
+Let -> if a variable declare through the keyword Let its value can change
+Const -> Constant means you can define the variable value once only and can't change throughout the score. If you try to change it, it throws error.
+
+- In any good program, you will never see Var now. Var is archived due to few downside reason.
+
+```js
+var a = 1;
+console.log(a); //✅
+```
+```js
+var a = 1;
+a = 2;
+console.log(a); //✅
+```
+```js
+let a = 1;
+a = 2;
+console.log(a); //✅
+```
+```js
+const a = 1;
+a = 2;
+console.log(a); //❌
+```
+```const``` Introduced to some safety in program.
+
+> Whenever you want to define a variable whose values is changing use ```let```.
+> Whenever value is not changing use ```const```.
+
+**Common Data Types** : ```string, number, boolean```
+```js
+let first_name = "Rohit";
+let age = 18;
+let isMarried = false;
+
+console.log("This person name is "+ first_name + " and his age is "+age);
+console.log("The person name is");
+
+```
 
 </details>
 
