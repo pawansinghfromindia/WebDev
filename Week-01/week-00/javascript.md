@@ -951,7 +951,7 @@ Asynchronous function
 
 </details>
 
-## JavaScript - One more step
+### JavaScript - One more step
 
 <details>
   <summary> <b> String Function JavaScript </b> </summary>
@@ -1334,9 +1334,10 @@ for (let i = 1; i < 10; i++) {
   setInterval(currentTimePrint, 1000);
 }
 ```
-</details
+</details>
 
 <details>
+  
   <summary> JSON = JavaScript Object Notation </summary>
 
 ```js
@@ -1478,11 +1479,181 @@ console.log(ans);
 Visualize the loop [latentflip](http://latentflip.com/loupe/)
 </details>
 
+<details>
+  <summary> Function </summary>
 
+What is function? <br/>
+- A set of statements that performs a task or calculate a value.
+- It takes some input and return an output where there is some obvious relationship between input and output.
+- function declaration : function keyword, function name, parameter, return
+- function definition : body where the logic is written
 
+```js
+function findSum(n){
+    let ans = 0;
+    for(let i=0; i<n; i++){
+        ans = ans + i;
+    }
+    return ans;
+}
 
+function sum(a,b){
+    return a + b;
+}
+// Declaration of function completed (Hired a cook)
+//  How to call a function? (Now start working)
 
+let ans = findSum(100); // calling the function
+console.log(ans);
+```
 
+Why do we need function?
+- Writing the same logic again and again.
+- Number of code reduce
+- Code Resuability
+```js
+let n = 100;
+let ans = 0;
+for(let i=1; i<n; i++){
+    ans = ans + i;
+}
+console.log(ans);
+
+let n1 = 1000;
+let ans1 = 0;
+for(let i=1; i<n; i++){
+    ans1 = ans1 + i;
+}
+console.log(ans1);
+```
+```js
+function findSum(n){
+    let ans = 0;
+    for(let i=0; i<n; i++){
+        ans = ans + i;
+    }
+    return ans;
+}
+
+let ans = findSum(100);
+console.log(ans);
+console.log(findSum(1000));
+console.log(findSum(2000));
+```
+
+</details>
+
+<details>
+  <summary> Callback Function </summary>
+
+Can we call one function inside another function?
+- Yes
+
+```js
+// find the square of the input
+function square(n){
+    return n*n;
+}
+// find the sum of square of given input
+function sumOfSquare(a,b){
+    const val1 = square(a);
+    const val2 = square(b);
+    return val1 + val2;
+}
+
+console.log(sumOfSquare(1,2));
+```
+
+```js
+function square(n){
+    return n*n;
+}
+function cube(n){
+    return n*n*n;
+}
+function sumOfSquare(a,b){
+    const val1 = square(a);
+    const val1 = square(b);
+    return val1 + val2;
+}
+function sumOfCube(a,b){
+    const val1 = cube(a);
+    const val1 = cube(b);
+    return val1 + val2;
+}
+// We can make these 2 functions as 1 function
+```
+
+Do you see flaw in this code?
+- Here DRY(Do not Repeat Yourself) being voileted.
+- Define single function called sumOfSomething(a,b,function)
+```js
+function square(n){
+    return n*n;
+}
+function cube(n){
+    return n*n*n;
+}
+function sumOfSomething(a, b, func){
+    const val1 = func(a);
+    const val2 = func(b);
+    return val1 + val2;
+}
+sumOfSomething(a,b,square);
+sumOfSomething(a,b,cube);
+```
+For now best definition of callback function (technically not true) : When you can pass one function to another function that's what called a **CallBack Function**. i.e. Passing Function as argument
+
+Argument can be number, string, array, object and It can also be another function as well.
+
+```js
+function square(n){
+    return n*n;
+}
+function cube(n){
+    return n*n*n;
+}
+function sumOfSomething(a,b,callback){
+    console.log(a);
+    console.log(callback);
+    const val1 = callback(a);
+    const val2 = callback(b);
+    return val1 + val2;
+}
+const ans = sumOfSomething(2,3,cube);
+console.log(ans);
+```
+
+</details>
+
+<details>
+  <summary>Anonymous Functions </summary>
+
+- Anonymous means who doesn't have a name.
+
+```js
+function sumOfSomething(a, b, callback) {
+  console.log(a);
+  console.log(callback);
+  const val1 = callback(a);
+  const val2 = callback(b);
+  return val1 + val2;
+}
+
+const ans = sumOfSomething(2,3,[black-box]);
+// define the function body here without name
+
+const ans = sumOfSomething(2,3,function cube(n){ return n*n*n});
+/*
+Do you need to name it?
+Do you call it ever?
+No, then why to name.
+So, no need to name it bcuz we can't access function because of scope.
+*/
+const ans = sumOfSomething(2,3,function (n){ return n*n*n});
+```
+
+</details>
 
 
 
