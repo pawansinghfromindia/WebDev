@@ -366,6 +366,8 @@ console.log(findSumOfnNaturalNumber(n));
 <details>
   <summary>🔻<b> Complex data types <code>JavaScript</code> : <code>Arrays </code> and <code>Objects </code> </b></summary>
 
+<details>
+	<summary>Objects </summary>
 
 ## Objects
 
@@ -596,7 +598,11 @@ greetsUser(user2);
 greetsUser(user3);
 ```
 <!----------------- Objects -------------------------->
+</details>
 
+<details>
+	<summary>Arrays </summary>
+	
 ## Arrays
 
 Arrays let us group data together.
@@ -631,29 +637,120 @@ console.log(ages);
 
 - Assignment
 Write a function that takes an array of numbers as input, and returns a new array with only even values. Read about `filter` in JS
+```js
+function even(arr){
+	const evenArr = [];
 
+    for(let i=0; i<arr.length; i++){
+		if(arr[i] % 2 === 0){
+           evenArr.push(arr[i]);
+    	}
+    }
+
+    return evenArr;
+}
+
+const arr = [27, 45, 11, 24, 12, 50];
+console.log(even(arr));
+
+// we can do that using JS filter() function which is used in Selecting an element from given arr
+const arr = [11, 12, 13, 14, 15, 16];
+const result = arr.filter(function even(i) {
+    if(i%2 === 0){
+        return true;
+    }
+    return false;
+});
+console.log(result);
+
+// we can do it using arrow function
+const arr = [1, 2, 4, 5, 6, 9];
+const ans = arr.filter((ele) => {
+   if(ele % 2 === 0){
+      return true;
+   }
+   return false;
+});
+console.log(ans);
+```
 
 ### Array of Objects
 
 We can have more complex objects, for example an array of objects
 ```js
-const users = [{
+const users = [
+    {
 		name: "Surya",
 		age: 21
-	}, {
+	},
+    {
 		name: "Chandra",
 		age: 22
 	}
-}
+]
 
 const user1 = users[0] 
 const user1Age = users[0].age
+
+console.log(user1);
+console.log(user1Age);
+
+console.log(users[0].name); // Surya
+console.log(users[0].age);  // 21
+console.log(users[1].name); // Chandra
+console.log(users[1].age);  // 22
+
+console.log(users[1]["name"]); // Chandra
+console.log(users[1]["age"]); // 22
+
+//console.log(users[2].age); // Error
 ```
 - Assignment
     
 Write a function that takes an array of users as inputs and returns only the users who are more than 18 years old
 ```js
 
+function isLegal(user){
+    if(user.age >= 18){
+         return true;
+    }
+    return false;
+}
+
+
+users = [
+     {
+        name: "Axar",
+        age: 12
+     },
+     {
+        name: "Bharti",
+        age: 15
+     },
+     {
+        name: "Chandan",
+        age: 18
+     },
+     {
+        name: "Durga",
+        age: 21
+     }    
+];
+
+// select the users age >= 18
+const ans = users.filter(isLegal);
+console.log(ans);
+console.log("-----------------------------");
+for(let i=0; i<ans.length; i++){
+  console.log(ans[i])
+}
+
+console.log("-----------------------------");
+// select the users age < 18
+const result = users.filter((user) => {
+  return user.age < 18;
+});
+console.log(result);
 ```
 
 ### Object of Objects
@@ -679,13 +776,69 @@ Create a function that takes an array of objects as input,
 and returns the users whose age > 18 and are male.
 ```js
 
+function isLegal(user){
+    if(user.age >= 18 && user.gender === "Male"){
+         return true;
+    }
+    return false;
+}
+
+
+users = [
+     {
+        name: "Axar",
+        age: 12,
+        gender: "Male"
+     },
+     {
+        name: "Bharti",
+        age: 15,
+        gender: "Female"
+     },
+     {
+        name: "Chandan",
+        age: 18,
+        gender: "Male"
+     },
+      {
+        name: "Manish",
+        age: 22,
+        gender: "Male"
+     },
+     {
+        name: "Durga",
+        age: 21,
+        gender: "Female"
+     }    
+];
+
+// select the users age >= 18 and gender Male
+const ans = users.filter(isLegal);
+console.log(ans);
+console.log("-----------------------------");
+for(let i=0; i<ans.length; i++){
+  console.log(ans[i])
+}
+
+console.log("-----------------------------");
+// select the users age < 18 and gender Male
+const result = users.filter((user) => {
+  return user.age < 18 && user.gender === 'Male';
+});
+console.log(result);
 ```
 <!----------------- Arrays --------------------------->
-
+</details>
 
 </details>
+
 <details>
-  <summary><b>Map, Filter and Arrow Functions </b>  </summary>
+  <summary><b>🔻 Map, Filter and Arrow Functions </b>  </summary>
+
+
+
+<details>
+	<summary>Arrow Function vs Normal Function </summary>
 
 ## Arrow Function vs Normal Function
 ```js
@@ -694,13 +847,39 @@ function sum(a, b){
     return a + b;
 }
 // Array Function in JS
+const sum = FindSum(a, b) => {
+	return a + b;
+};
+// Make is anonymous as we're not calling it from other places
 const sum = (a, b) => {
     return a + b;
 }
+// Make it more precise
+const sum = (a, b) => return a + b;
+// Make it more precise
+const sum = (a, b) => a + b;
+
 // Both are almost same, not exactly
 const ans = sum(3, 7);
 console.log(ans);
 ```
+Yes, there is a real difference between normal function and arrow function. Both are binded differently.
+
+Arrow functions are used in callbacks.
+```js
+// callbacks example
+
+app.get("/", function(req, res) => {
+	//code
+});
+
+// Another way of writing it
+
+app.get("/", (req, res) => {
+	//code
+});
+```
+
 | Normal Function                           | Arrow Function                            |
 |-------------------------------------------|-------------------------------------------|
 | Does bind `this` to object                | Doesn't bind `this` to object             |
@@ -709,6 +888,9 @@ console.log(ans);
 | Have to `return` anyway  explicitly       | allow implicit return, means No `return` needed if single expression.  |
 | Has `arguments`                           | Has no `arguments`, has rest parameters   |
 | Usecases : Object methods, Event handlers | Usecases : Callbacks, Short utility functions |
+
+<details>
+	<summary> code </summary>
 
 ```js
 const user = {
@@ -763,74 +945,304 @@ test('a',2);
 const test2 = (...args) => console.log(args);
 test2(1,'2')
 ```
+</details>
+
+</details>
+
+<details>
+	<summary>Map </summary>
+
 ## Map
+
+Let's understand it with a problem statement : <br/>
+Given an array, give me back a new array in which every value is double(multiplied by 2).
+
+Simple way to solve this problem.
+```js
+const arr = [1, 2, 3, 4, 5]
+
+const newArr = [];
+for(int i=0; i<arr.length; i++){
+	newArr.push(arr[i]*2);
+}
+
+console.log(newArr);
+```
+JS says, this is an ugly way of doing the things, make it slightly more cleaner which is debatable.
+
+JavaScript way to doing it, which is more standard way which is used in React.
+
+<img width="350" height="250" alt="image" src="https://github.com/user-attachments/assets/695a873e-1a3e-442e-99a2-84902b8fba09" />
+
+```js
+function func(i){
+	return i * 2;
+}
+const arr = [1, 2, 3, 4, 5];
+
+const result = arr.map(func);
+
+console.log(result);
+```
+We can also write it in inline function and also using arrow function
+```js
+const arr = [1, 2, 3, 4, 5];
+
+// inline function
+const result = arr.map(function func(i){
+	return i * 2;
+});
+
+// We can write arrow function more precise
+const result2 = arr.map((i) => {
+	return i * 2;
+});
+
+const result3 = arr.map( (i) => i * 2 );
+
+console.log(result);
+console.log(result2);
+console.log(result3);
+```
+Assignment : **Implement the `map()` function on your own**
+```js
+// Create a map() function which takes 2 parameters, an array and a function
+// based on the transformation function/callbacks it will return a new array.
+
+//Impementation of map() function
+function map(arr, func){
+	const newArr = [];
+    for(let i=0; i<arr.length; i++){
+        newArr.push(func(arr[i]));
+    }
+    return newArr;
+}
+// We can implement it using arrow function as well
+const map = (arr, func) => {
+	const newArr = [];
+    for(let i=0; i<arr.length; i++){
+         newArr.push(func(arr[i]));
+    }
+    return newArr;
+};
+
+const arr = [1, 2, 3, 4, 5];
+const result = map(arr, (i) => i * 2 );
+console.log(result);
+//------------------------------------------
+
+const map = (arr, func) => {
+	const newArr = [];
+    for(let i=0; i<arr.length; i++){
+         newArr.push(func(arr[i]));
+    }
+    return newArr;
+};
+
+function x2(num){
+  return num * 2;
+}
+
+const arr = [1, 2, 3, 4, 5];
+const result = map(arr,x2);
+console.log(result);
+```
+
+</details>
+
+<details>
+	<summary>Filter </summary>
 
 ## Filter
 
+Let's understand it with a problem statement : Given an input array, return all those even value in it.
+```js
+// Input [1, 2, 3, 4, 5]
+// Output [2, 4]
+
+// Normal Easy way
+const arr = [1, 2, 3, 4, 5];
+const newArr = [];
+for(let i=0; i<arr.length; i++){
+	if(arr[i] % 2 == 0){
+         newArr.push(arr[i]);
+    }
+}
+console.log(newArr)
+```
+```js
+// JS Way using filter
+function findEven(num){
+	return num%2==0;
+}
+
+const arr = [1, 2, 3, 4, 5];
+const evenArr = arr.filter(findEven);
+console.log(evenArr)
+
+// We can do this by writing funnction in the same line
+const ans = arr.filter(function(n){
+  if(n%2==0){
+    return true;
+  }
+  else{
+    return false;
+  }
+});
+console.log(ans)
+
+// We can also do it with arrow function
+const odd = arr.filter((num) => {
+  if(num%2!=0){
+    return true;
+  }
+  return false;
+});
+console.log(odd)
+```
+
+You're given the n users in an array, return the username starts with "R".
+```js
+const users = ["Rahul", "Amit", "Rohit", "Roshan", "Vikash"];
+
+const result = users.filter((n) => {
+	if(n.startsWith("R")){
+        return true;
+    }
+    return false;
+});
+
+console.log(result);
+```
+> Why we use `map()` and `filter()` that's bcuz when we work with React, this syntax is used mostly!
+
+</details>
+
+
+
+
+<details>
+	<summary>Reduce </summary>
+
 ## Reduce
 
+- `reduce()` Reduces array to ONE value. So, use `reduce()` when you want one final result
+- Can return number, string, object, array.
+- It's powerful.
+Syntax of `reduce()`
+```js
+arr_name.reduce((accumulator, current) => {
+  return updatedAccumulator;
+}, initialValue);
+
+```
+```js
+const numbers = [1, 2, 3, 4];
+
+const sum = numbers.reduce((acc, curr) => acc + curr, 0);
+
+console.log(sum); // 10
+```
+Find the total price
+```js
+const cart = [
+  { item: "Book", price: 100 },
+  { item: "Pen", price: 20 }
+];
+
+let totalPrice = cart.reduce((sum, current)=> { return sum + current.price}, 0);
+
+console.log(totalPrice)
+```
 </details>
+
+
+
+<details>
+	<summary>Map vs forEach </summary>
+
+## Map vs forEach
+
+- Both are used to loop over arrays, but their purpose is different.
+
+`map()` returns a NEW array and use it When you want TRANSFORMATION
+```js
+const numbers = [1, 2, 3, 4];
+
+numbers.forEach(n => {
+  console.log(n * 2);
+});
+```
+
+`forEach()` returns NOTHING, mostly not used, rarely use When you want SIDE EFFECTS
+```js
+const numbers = [1, 2, 3, 4];
+
+numbers.forEach(n => {
+  console.log(n * 2);
+});
+
+```
+</details>
+
+
+<details>
+	<summary>Spread Operator </summary>
+
+## Spread Operator `...`
+
+It Expand values
+
+Used with arrays, objects, function arguments.
+
+Copy an array through `...`
+```js
+const a = [1, 2, 3];
+const b = [...a];
+
+console.log(b); // [1, 2, 3]
+```
+
+Merge an array through `...`
+```js
+const arr1 = [1, 2];
+const arr2 = [3, 4];
+
+const merged = [...arr1, ...arr2];
+```
+Copy an object through `...`
+```js
+const user = { name: "Ram", age: 20 };
+
+const newUser = { ...user };
+```
+Update the object property through `...`
+```js
+const updatedUser = { ...user, age: 21 };
+```
+
+`...` is used while calling any function with array elements.
+```js
+function sum(a, b, c) {
+  return a + b + c;
+}
+
+const nums = [1, 2, 3];
+console.log(sum(...nums)); //6
+```
+</details>
+
+**Summary**
+| Method       | Purpose               |
+| ------------ | --------------------- |
+| map          | Transform elements    |
+| filter       | Select elements       |
+| reduce       | Combine to one value  |
+| spread `...` | Copy / merge / expand |
+| arrow `=>`   | Short functions       |
+
+
+</details>
+
 <!----------------JS Complex data types Arrays and Objects --------------------------->
 
-<details>
-  <summary>🔻<b> Introduction </b>  </summary>
-
-
-</details>
-<!----------------JS Introduction --------------------------->
-
-<details>
-  <summary>🔻<b> Normal functions in JS</b>  </summary>
-
-
-</details>
-<!----------------JS Normal functions --------------------------->
-
-<details>
-  <summary>🔻<b> Synchronous code</b>  </summary>
-
-
-</details>
-<!----------------JS Synchronous code --------------------------->
-
-<details>
-  <summary>🔻<b> I/O heavy operations </b>  </summary>
-
-
-</details>
-<!----------------JS  I/O heavy operations --------------------------->
-
-<details>
-  <summary>🔻<b> I/O bound tasks vs CPU bound tasks </b>  </summary>
-
-
-</details>
-<!----------------JS  I/O bound tasks vs CPU bound tasks  --------------------------->
-
-<details>
-  <summary>🔻<b> Doing I/O bound tasks in the real world</b>  </summary>
-
-
-</details>
-<!----------------JS  Doing I/O bound tasks in the real world --------------------------->
-
-<details>
-  <summary>🔻<b> Functional arguments</b>  </summary>
-
-
-</details>
-<!----------------JS Functional arguments  --------------------------->
-
-<details>
-  <summary>🔻<b> Asynchronous code, callbacks</b>  </summary>
-
-
-</details>
-<!----------------JS  Asynchronous code, callbacks --------------------------->
-
-<details>
-  <summary>🔻<b> JS Architecture for async code</b>  </summary>
-
-
-</details>
-<!----------------JS JS Architecture for async code  --------------------------->
