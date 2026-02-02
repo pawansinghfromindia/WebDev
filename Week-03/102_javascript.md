@@ -732,16 +732,21 @@ function callback(){
 }
 
 setInterval(callback, 1000);
-//Here, we're free and said to someone call this function after one second
+//Here, we're free for a second and said to someone call this function after one second
 // Now we can do other things
 let sum = 0;
-for(int i=0; i<10000000000; i++){
+for(let i=0; i<10000000000; i++){
     sum += i;
 }
 
 console.log("Sum is "+ sum);
-
 ```
+After the function callback, it will call the function and OS inform the JS Thread that Hey, I call the function But as here we wrote the Async code so JS Thread is busy in running next step which is a for loop doing CPU bound Intensive Task So, Here OS inform JS Thread, JS Thread will ignore the OS call and do its current job bcuz JS Thread can't leave the process in between and in the meantime OS will call JS Thread several times. Once the JS Thread complete the current Job then all of the function calls will be called. 
+
+Why is it so? Why it behave exactly this way : This takes us to a concept **JS Architecture of Async Code**
+
+Answer is How the Async JS Runtime is written? whoever wrote it they decided to how should it be.
+It is written in a way that If CPU is doing something, It doesn't matter how many other processes are standing in line and telling the CPU to do other things(call a callback function), The CPU is ignoring all those calls and eventually CPU completed the current process and Now CPU is freee then CPU will move on to callback1, callback2, callback3,....and so on 
 
 </details>
 <!----------------JS  Asynchronous code, callbacks --------------------------->
@@ -751,9 +756,115 @@ console.log("Sum is "+ sum);
 
 How JS executes asynchronous code  [http://latentflip.com/loupe/](http://latentflip.com/loupe/)
 
+> There are 2 types of languages : 1. Callstack based languages : JS, Python, Java 2. Registered based languages : C/C++, RUST
+<details>
+	<summary> <b> CallStack vs Registered Based Languages  </b> </summary>
+
+Programming languages (or their VMs/CPUs) execute instructions using two main models:
+
+**1. Stack-based (Call-stack based)**
+- Operations use a stack
+- Instructions do not name operands
+- They work on the top of the stack
+- Example : Java Virtual Machine (JVM bytecode), Python (CPython VM), WebAssembly (mostly stack-based)
+> JavaScript engines compile `JS → bytecode → machine code` Historically, JS VMs started stack-based, then optimized internally.
+
+```asm
+PUSH 2
+PUSH 3
+ADD
+
+
+// 2 pushed
+// 3 pushed
+// ADD pops, both -> pushes result 5
+```
+
+**2. Register-based**
+- Operations use registers
+- Instructions explicitly name operands
+- Example : C/C++ (compiled to CPU registers), Rust, Go, Lua VM (register-based), V8 internal IR (register-like)
+```asm
+LOAD R1, 2
+LOAD R2, 3
+ADD  R3, R1, R2
+
+// Registers hold values
+// Result stored directly
+```
+The difference is where operands live and how instructions work.
+
+Why Register-Based Is Faster ?
+- No push/pop overhead
+- Fewer instructions
+- Better use of CPU pipelines
+- Easier JIT optimizations
+
+Note : That’s why modern JS engines internally convert stack bytecode to register-like IR.
+
+> - Stack-based → "Take values from top of stack"
+> - Register-based → "Take values from named locations"
+
+</details>
+
+```js
+function callback(){
+	console.log("callback called");
+}
+
+setTimeOut(callback, 1000);
+setTimeOut(callback, 2000);
+setTimeOut(callback, 3000);
+
+let sum = 0;
+for(let i=0; i<10; i++){
+	sum += i;
+}
+console.log(sum);
+
+//visualize it on latentflip.com
+```
+When we run and Visualize this code, we have a **callstack**, a **WebAPIs** and a **Callback Queue**.
+- WebAPIs is there bcuz setTimeOut()/fs.readFile("") is not part of standard JS language It is something that need for browsers, website. So all these APIs are usually inside web like fetch, XML, HTTP, read etc.
+- The functions that are not part of JS but Browser JS which is why this section are called WebAPI section.
+
+Basically JS Runtime is written in a way that all Async operations have to wait in a queue(**callback queue**) and don't directly interrupt the **callstack**
+
+Even if the `setTimeOut(callback, 0)` is waiting for 0ms still first sum will be logged then only callback function wil be logged.
+```js
+function callback(){
+	console.log("callback called");
+}
+
+setTimeOut(callback, 0);
+
+let sum = 0;
+for(let i=0; i<10; i++){
+	sum += i;
+}
+console.log(sum);
+```
+
+```js
+function callback(){
+	console.log("callback called");
+}
+
+setInterval(callback, 1000);
+
+let sum = 0;
+for(let i=0; i<10; i++){
+	sum += i;
+}
+console.log(sum);
+// we can't see setInterval visualization on latentflip.com
+// Visualize on your own 
+```
+
 **1. Call Stack**
 
-- The call stack is a data structure that keeps track of the function calls in your program. It operates in a "Last In, First Out" (LIFO) manner, meaning the last function that was called is the first one to be executed and removed from the stack.
+- The call stack is a data structure that keeps track of the function calls in your program.
+- It operates in a "Last In, First Out" (LIFO) manner, meaning the last function that was called is the first one to be executed and removed from the stack.
 - When a function is called, it gets pushed onto the call stack. When the function completes, it's popped off the stack.
 
 ```js
@@ -773,11 +884,47 @@ second();
 
 **3. Callback Queue**
 
-The callback queue is a list of tasks (callbacks) that are waiting to be executed once the call stack is empty. These tasks are added to the queue by Web APIs after they have completed their operation.
+- The callback queue is a list of tasks (callbacks) that are waiting to be executed once the call stack is empty. 
+- These tasks are added to the queue by Web APIs after they have completed their operation.
 
-4. Event loop
+**4. Event loop**
 
-The event loop constantly checks if the call stack is empty. If it is, and there are callbacks in the callback queue, it will push the first callback from the queue onto the call stack for execution.
+- The event loop constantly checks if the call stack is empty. 
+- If it is, and there are callbacks in the callback queue, it will push the first callback from the queue onto the call stack for execution.
+
+
+<img width="600" height="481" alt="image" src="https://github.com/user-attachments/assets/71e59c7e-c79c-46be-8564-fc31f7b6c876" />
+
+
+JS is a single threaded but WebAPIs is different so JS Thread is not running the WebAPIs, The another thread in CPU which runs the browser on your machine will be responsible for running it not JS Thread. 
+That means JS is multi-Threaded ? <br/>
+No, here there is a different thread that is doing seperately, unlike the Java/RUST/C++ where code execution can happen parallelly among multiple thread but in JS code execution can be done only single thread way.
+
+let's say we're running JS code on a server and if multiple HTTP Request comes then will it run in single threaded, So request will be processed one by one? How does Server handled it?
+- So, If we have a HTTP server which is receiving bunch of HTTP request one after the other
+- As JS is single Threaded, Does that mean can handle one request at a time? It depends on what is happening inside the request. If inside the request you're running a for loop(1 to million) then yes It will handle one at a time like first HTTP request comes and then control will run the for loop for million time and then second request come and for loop and so on.
+- But If you're not doing CPU intensive task which is not true in HTTP Request.
+- Generally in HTTP Requests come, it is not a CPU Intensive but a I/O Intensive DB Calls, Redish Calls , FS calls Operations like talking to database or reading/receiving data from database or reddis or queue. That's is why we can handle multiple HTTP requests together. 
+
+But yes, if you send a million request to nodeJS server, yes it might break bcuz irrespective of How big machine is like whether it has 8 CPUs or 16 CPUs. All the CPU tasks are run on a single thread. We will learn about this when it comes.
+
+```js
+const fs = require("fs");
+
+const file1 = fs.readFileSync("a.txt", "utf-8");
+const file2 = fs.readFileSync("b.txt", "utf-8");
+const file3 = fs.readFileSync("c.txt", "utf-8");
+
+// if Requirement is more optimal then
+
+fs.readFile("a.txt", "utf-8", function (err, data){
+	   fs.readFile("b.txt", "utf-8", function (err2, data2){
+              fs.readFile("c.txt", "utf-8", function (err3, data3){
+            })
+       })
+})
+// This is called callback Hell, we will understand it when we learn Promises
+```
 
 </details>
 <!----------------JS JS Architecture for async code  --------------------------->
