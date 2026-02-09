@@ -809,17 +809,762 @@ We will see Promises in details bcuz It is special class in JS.
 
 ## Promise
 
+A **Promise** in JavaScript is an object that represents the `eventual completion` (or failure) of an asynchronous operation and its resulting value.
+
+Promises are used to handle asynchronous operations more effectively than traditional callback functions, providing a cleaner and more manageable way to deal with code that executes asynchronously, such as API calls, file I/O, or timers.
+
 <details>
   <summary> <b>Promise class</b> </summary>
 
 <br/>
 
+Promise is an important class to know about. <br/>
+
+> Calling a promise is easy, defining your own promise is where things get hard
+
+
+In the end `Promise` is nothing but class, just like `Date` or `Map` provided by JS  or `Rectangle`, `Square` etc created and defined by us.
+
+You can also code/write `Promise` class by yourself if you want. It is not difficult to code if you know Async Program.
+
+```js
+let p1 = new Promise();
+```
+
+We know about I/O Intensive Bound Operations vs CPU Intensive Bound Operations 
+
+<details>
+	<summary> Reading file Sync and Async </summary>
+
+Reading file sync way
+```js
+// load the fs module/library to use readFile function
+const fs = require("fs");
+
+//reading file sync way
+let content = fs.readFileSync("a.txt", "utf-8");
+console.log(content);
+```
+Reading file also if error so do error handling
+```js
+// load the fs module/library to use readFile function
+const fs = require("fs");
+
+// How to handle error if file not found
+try {
+  let content = fs.readFileSync("a123.txt", "utf-8");
+  console.log(content);
+} catch (error) {
+  console.log("Error while reading the file..... \n", error);
+}
+```
+Reading the file in Asyn way using `readFile()` which takes a callback function.
+```js
+// load the fs module/library to use readFile function
+const fs = require("fs");
+
+// Now reading file : Async way
+
+function callback(error, data) {
+  if (error) {
+    console.log("Error while reading file \n", error);
+  } else {
+    console.log(data);
+  }
+}
+
+fs.readFile("a.txt", "utf-8", callback);
+
+let control = 0;
+for(let i = 0; i < 1000000; i++){
+	control += i;
+}
+console.log(control);
+```
+
 </details>
+
+So, `Promises` are sort of alternate to using `Callback functions` for Async code like reading file, Timer, database calls, API Calls.
+
+Before 2014, Promises didn't exists, Callbacks were the only way to do Async operations.
+
+
+
+<details>
+	<summary> Promises as alternative to Callbacks </summary>
+
+Promisified way to do Async operations, (Another little better way, more readable, slighly more mordern syntax and bunch of other benefits of promises over callbacks) But promises does the same thing waht callbacks function does. <br/>
+e.g. : Reading file(i/o), doing database call, clocks timers, doing api call.
+
+**From where these Promises comes out of the box of JS Syntax ?**
+
+***In Computer Science Elite things People made which they understand and world doesn't.*** <br/>
+Then they write their code using the elite thing. <br/>
+- one such elite thing is `promises` and 
+- `Dependency Injection` : unfortunately, all bigger code bases adopeted, Hence we have to learn about them. same thing is true about Promises.
+Everything we can do with promises, can be done by suing Callback functions. <br/>
+But It is more modern syntax that make you feel more superior developer that's why you learn it.
+
+
+If you want to print "Hi there" on the screen after 5 seconds of your program start?
+```js
+function callback(){
+	console.log("Hi there");
+}
+
+setTimeout(callback, 5*1000);
+
+let sum = 0;
+for(let i=0; i<1000; i++){
+	sum+=i;
+}
+console.log(sum);
+```
+Is this Sync operation or Async Operations ? : **Async** bcuz we can do another operations instead of waiting for 5 secs.
+
+**[Visualize it Here](http://latentflip.com/loupe/)**
+
+</details>
+
+Questions are : <br/>
+**How to write a Promise ?** <br/>
+**How do you use a Promise ?** <br/>
+
+**Callback Version** of Printing a clock after 3 seconds Async code using `setTimeout(callback, 3000)`
+
+**Promisified Version** of Printing a clock after 3 seconds Async code using `Promise Class and Promisified Function` i.e. Modern syntax of doing same thing. `setTimeoutPromisiifed(3000).then(callback)`
+
+Only difference is Promisified Version is not a global function exists to you in JS while setTimeout() exists globally in JS.
+
+But if it did exist, It would look something like this
+```js
+function setTimeoutPromisified(ms){
+		return new Promise(resolve => setTimeout(resolve, ms));
+}
+```
+
+</details>
+
+### Using a function that returns a promise
+
+Ignore the function definition of `setTimeoutPromisifed` for now
+
+
+<details>
+	<summary><b>1.  Code for Promisified version of setTimout </b> similar to Async Callback functions </summary>
+
+```js
+function setTimeoutPromisified(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+// SYNTAX OF CALLING A PROMISIFIED FUNCTION ASYNC
+function callback() {
+	console.log("3 seconds have passed");
+}
+
+setTimeoutPromisified(3000).then(callback)
+
+```
+
+
+> Note : `setTimeout(callback, 3000)` is something that is still written in traditional way rest almost all Async operations like readFile, Database call, API Calls are something that you usually write in Promisified way, not traditional callback function way.
+
+
+</details>
+
+
+<details>
+	<summary><b>2. Code for Promisified version of reading a file </b>similar to Async Callback functions </summary>
+
+```js
+// include the module/library to readFile
+const fs = require("fs");
+
+// Promise Class is provided by JS that we're using it Promisified Function
+
+// Defining the Promisified function
+function fsReadFilePromisified(filePath, encoding) {
+  //........Black Box for beginners as of now
+}
+
+// using the promisified function
+function callback(err, data) {
+  if (err) {
+    console.log("Error", err);
+  } else {
+    console.log(data);
+  }
+}
+
+fsReadFilePromisified("a.txt", "utf-8").then(callback);
+
+
+/*
+const fs = require("fs");
+
+function callback(err, data) {
+  if (err) {
+    console.log("Error", err);
+  } else {
+    console.log(data);
+  }
+}
+
+fs.readFile("a.txt", "utf-8", callback);
+*/
+```
+
+Defining the Promisified Function
+```js
+function fsReadFilePromisified(filePath, encoding) {
+    return new Promise((resolve, reject) => {
+        fs.readFile(filePath, encoding, (err, data) => {
+            if (err) {
+                reject(err)
+            } else {
+                resolve(data);
+            }
+        })
+    })
+}
+```
+
+</details>
+
+<img width="350" height="200" alt="image" src="https://github.com/user-attachments/assets/afdd7942-d92c-4a98-8d2d-c87cabec9b45" />
+
+> Note : Although both calling Asynchronously, both are same in performance, it's just that modern syntax is Promisified version.
+
+<!----------- Promise class ----------------------->
+
+## Question related to Promises
+
+**Que : Why is that when we write callback function `callback(error, data)` not `callback(data, error)`?** <br/>
+Ans : It is because whoever wrote `fs.readFile()` wrote it in a way that whenever the file is read, the callback function must be have 2 parameters first parameter is for error and second parameter is for data/content that a file has. Since while reading the file, it might get error or file not found to handle it, it is written like that.
+
+<details>
+	<summary> code for above </summary>
+
+```js
+const fs = require("fs");
+
+function callback(err, data){
+	if(err){
+      // while error
+      console.log("Error while reading the file");
+    }
+    else{
+      // log the file data which has been read
+      console.log(data);
+    }
+}
+
+fs.readFile("a.txt", "utf-8", callback);
+```
+```js
+const fs = require("fs");
+
+//fs.readFile("a.txt", "utf-8", callback);
+fs.readFile("a.txt", "utf-8", function callback(err, data){
+	if(err){
+      // while error
+      console.log("Error while reading the file");
+    }
+    else{
+      // log the file data which has been read
+      console.log(data);
+    }
+});
+```
+```js
+const fs = require("fs");
+
+//fs.readFile("a.txt", "utf-8", callback);
+fs.readFile("a.txt", "utf-8", (err, data) => {
+  if (err) {
+    // while error
+    console.log("Error while reading the file");
+  } else {
+    // log the file data which has been read
+    console.log(data);
+  }
+});
+```
+</details>
+
+Interview Question : **Convert `fs.readFile()` to its Promisified Version** <br/>
+Unfortunately, FileSystem  `fs` module/library was written back then, the only function it exposes few like `readFileSync()`, `readFile()`. <br/>
+It didn't exposes its Promisified Version.
+
+So, We can write it. It's difficult as of now we only know the How to call promisified function ? once we learned How to define promisified function.
+
+<details>
+	<summary> Let's code it </summary>
+
+```js
+const { log } = require("console");
+const fs = require("fs");
+
+function fsReadFilePromisified(filepath, encoding) {
+  let p = new Promise((resolve, reject) => {
+    fs.readFile(filepath, encoding, (err, data) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(data);
+      }
+    });
+  });
+  return p;
+}
+
+function callback(content) {
+  console.log(content);
+}
+
+//older ways, there we need to define the callback with 2 parameter err, data
+//fs.readFile("a.txt", "utf-8", callback);
+
+// promisified way
+fsReadFilePromisified("a.txt", "utf-8").then(callback);
+//Read the a.txt file with specified encoding and if everything goes well then only call the callback function which is inside then().
+```
+The way promises makes our life easier is that it has better syntax. 
+
+Not only `then()` we also have `catch()` which can be called on top of then() If something went wrong in that case then() will not call there we can call the callback mentioned in catch().
+```js
+function callback(data){
+		console.log(data);
+}
+function callbackErr(err){
+		console.log("error while reading the file", err);
+}
+
+fsReadFilePromisified("a.txt", "utf-8")
+		.then(callback)
+		.catch(callbackErr)
+
+```
+```js
+const { log } = require("console");
+const fs = require("fs");
+
+function fsReadFilePromisified(filepath, encoding) {
+  let p = new Promise((resolve, reject) => {
+    fs.readFile(filepath, encoding, (err, data) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(data);
+      }
+    });
+  });
+  return p;
+}
+
+function callback(content) {
+  console.log(content);
+}
+
+function callbackErr(err) {
+  console.log("error while reading", err);
+}
+
+// promisified way
+fsReadFilePromisified("a1.txt", "utf-8").then(callback).catch(callbackErr);
+//Read the a.txt file with specified encoding and if everything goes well then only call the callback function which is inside then() otherwise if anything went wrong call catch with its callbackErr which will only run if then() didn't run.
+```
+</details>
+
+<details>
+	<summary> <b>Que : can we call promisified function by creating a variable?</b> </summary>
+
+<br/>
+
+Ans : Yes, We can and this will be exactly same like without it.
+```js
+fsReadFilePromisified("a.txt", "utf-8").then(callback).catch(callbackErr);
+
+// or
+
+let p = fsReadFilePromisified("a.txt", "utf-8");
+p.then(callback).catch(callbackErr);
+
+// Both are same.
+```
+</details>
+
+<details>
+	<summary> <b>Que : Without calling `.then()` can we call `.catch()`</b> </summary>
+
+<br/>
+
+Ans : Yes we can but then what is the use of it that we're reading the file but not printing it. <br/>
+So if file is read the without any error then catch() will not called but if any error while reading the file then catch callbackerr will be called.
+```js
+let p = fsReadFilePromisified("a11.txt", "utf-8");
+p.then(callback).catch(callbackErr);
+
+// VS
+
+let p = fsReadFilePromisified("a11.txt", "utf-8");
+p.catch(callbackErr);
+```
+</details>
+
+<details>
+	<summary> <b>Promises can be either in `Pending` state to `Resolve` or `Error` state</b> </summary>
+
+
+<br/>
+
+
+- `resolve(data)` means Now send the control to `then()` call user's callback function
+- `reject(err)` means Now send the control to `catch()` call user's callbackErr function
+
+```js
+const fs = require("fs");
+
+function fsReadFilePromisified(filepath, encoding) {
+  let p = new Promise((resolve, reject) => {
+    fs.readFile(filepath, encoding, (err, data) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(data);
+      }
+    });
+  });
+  return p;
+}
+
+function callback(content) {
+  console.log(content);
+}
+
+function callbackErr(err) {
+  console.log("error while reading");
+}
+
+let p = fsReadFilePromisified("a.txt", "utf-8");
+p.then(callback).catch(callbackErr);
+
+for (let i = 0; i < 2; i++) {
+  console.log(p);
+}
+
+setTimeout(() => {
+  console.log(p);
+}, 500);
+
+```
+
+</details>
+
+<details>
+	<summary> <b>Que : Can we do sync operations by using Promisified function?</b> </summary>
+
+
+<br/>
+
+Ans : Yes, We can but there is no point of it. Like there is no point in callback in sync even though you can always write them.
+
+Callback are in FIFO queue then why below code runs in different order? <br/>
+The concept of **Micro Task vs Macro task** in Promise Resolve. <br/>
+One task might be prefer over the other. <br/>
+So, 2 macro tasks will be FIFO and 2 mico tasks will be FIFO. <br/>
+But amongst them there will be a priority of one get picked over the other.
+
+</details>
+
+<!----------- Questions in Promises ----------------------->
+
+## Assignment for Promises
 
 <details>
   <summary> Assignment : Code the <b>Promise class</b> on yourself </summary>
 
 <br/>
 
+- Calling is Promise is easy, defining a Promise is where things get hard.
+- Your can code Promise Class by yourself. <br/>
+It is not difficult to code if you know Async programming.
+
+```js
+class Promise{
+     constructor(){
+          // something
+     }
+     then(){
+         // something
+    }
+}
+```
+
+```js
+class Promise{
+     constructor(){
+          // something
+     }
+     then(){
+         // something
+    }
+    catch(){
+        // something
+    }
+}
+```
+
+```js
+class Promise{
+     constructor(fn){
+          // something
+     }
+     then(){
+         // something
+    }
+    catch(){
+        // something
+    }
+}
+```
+
+```js
+class Promise{
+     constructor(fn){
+          //this.fn(fun1, fun2)
+          this.function(function (){
+                // resolve
+          }, function (){
+                // reject
+          }
+          )
+          
+     }
+     then(){
+         // something
+    }
+    catch(){
+        // something
+    }
+}
+```
+Why 1 function inside constrcutor and inside constructor 2 functions like `new Promise(resolve, reject) => {}).then(catch).catch(error)`
+```js
+// Write our own Promise class
+class Promise2{
+     constructor(fn){
+          //this.fn(fun1, fun2)
+          this.function(() => {
+                // resolve
+                this.successCallback();
+          }, () => {
+                // reject
+                this.errorCallback();
+          }
+          )
+          
+     }
+     then(s){
+         // something
+         this.successCallback = s;
+         return this;
+    }
+    catch(e){
+        // something
+        this.errorCallback = e;
+        return this.
+    }
+}
+
+// To use Promise, we have to define Promisified Function
+// Define the Promisified Function
+function setTimeoutPromisified(ms){
+		return Promise2(resolve => setTimeout(resolve, ms));
+}
+
+// Calling Promisified Function
+setTimeout(1000).then( () => {
+                       console.log("Hi");
+                 }
+                )
+// It will work after 1 sec, It will print Hi with our class Promise2 not Promise class JS provide
+
+// Our Promise class chaining will not work as we have not implemented it
+setTimeoutPromisified(1000)
+           .then( () => {
+               console.log("Hi");
+               return setTimeoutPromisified(1000);
+           }).then( () => {
+               console.log("Hello");
+               return setTimeoutPromisified(1000);
+           })
+```
+
 </details>
-<!----------- Promise class ----------------------->
+
+<!----------- Assignment for Promises ----------------------->
+
+## Callback hell
+
+One of the reason, Promises are preferred is because Callback have weird sort of thing known as **Callback Hell**
+
+> If you have to do one Async Operation followed by another Async operation followed by another Async operation so on and so forth.
+It gets skewed right over here, what commonly known as **Callback Hell**
+
+
+There is a solution to it :
+
+<br/>
+
+<img width="350" height="250" alt="image" src="https://github.com/user-attachments/assets/058387ce-9396-4d2b-822e-d38b101f268b" />
+
+- callback hell is ***bad and hard to read***.
+- Hence Promise make it much cleaner
+- By doing something called ***Promise Chaining***
+
+- It still same problem **Right Skewed Promise** known as **Promise hell**
+
+How chaining is implemented?
+```js
+setTimeoutPromisified(1000).then(function(){
+	                console.log("Hi");
+                    setTimeoutPromisified(1000).then(function(){
+                                      console.log("Hello");
+                                      setTimeoutPromisified(1000).then(function(){
+                                                    console.log("Welcome");
+                                       })
+                    })
+})
+```
+
+Better way to right this is:
+```js
+function setTimeoutPromisified(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+setTimeoutPromisified(1000)
+  .then(function () {
+    console.log("Hi");
+    return setTimeoutPromisified(1000);
+  })
+  .then(function () {
+    console.log("Hello");
+    return setTimeoutPromisified(1000);
+  })
+  .then(function () {
+    console.log("Welcome");
+    return setTimeoutPromisified(1000);
+  });
+
+```
+
+
+**Q: Write code that**
+
+1. logs `hi` after 1 second
+2. logs `hello` 3 seconds after `step 1`
+3. logs `hello there` 5 seconds after `step 2`
+
+<details>
+	<summary> <b>Solution (has callback hell)</b> </summary>
+	
+```js
+setTimeout(function () {
+  console.log("hi");
+  setTimeout(function () {
+    console.log("hello");
+
+    setTimeout(function () {
+      console.log("hello there");
+    }, 5000);
+  }, 3000);
+}, 1000);
+```
+</details>
+
+
+<details>
+	<summary> <b>Alt solution (doesn't really have callback hell)</b> </summary>	
+
+```js
+function step3Done() {
+  console.log("hello there");
+}
+
+function step2Done() {
+  console.log("hello");
+  setTimeout(step3Done, 5000);
+}
+
+function step1Done() {
+  console.log("hi");
+  setTimeout(step2Done, 3000);
+}
+
+setTimeout(step1Done, 1000);
+```
+</details>
+
+**Promisified version**
+
+Now use the `promisified` version we saw in the last slide
+
+```js
+function setTimeoutPromisified(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+```
+
+<details>
+	<summary> <b>Solution #1 (has callback hell)</b> </summary>
+
+```js
+function setTimeoutPromisified(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+setTimeoutPromisified(1000).then(function () {
+  console.log("hi");
+  setTimeoutPromisified(3000).then(function () {
+    console.log("hello");
+    setTimeoutPromisified(5000).then(function () {
+      console.log("hello there");
+    });
+  });
+});
+```
+</details>
+
+<details>
+	<summary> <b>Solution #2 Alt solution</b> </summary>
+
+```js
+setTimeoutPromisified(1000)
+  .then(function () {
+    console.log("hi");
+    return setTimeoutPromisified(3000);
+  })
+  .then(function () {
+    console.log("hello");
+    return setTimeoutPromisified(5000);
+  })
+  .then(function () {
+    console.log("hello there");
+  });
+```
+
+</details>
+
+
+Real world Example of Promisified function is `fetch()`
+```js
+fetch("api.google.com");
+// what it returns is Promise.
+// So on this promise you can call .then().catch() and so on so forth
+```
+
+<!----------- Callback Hell ----------------------->
+
