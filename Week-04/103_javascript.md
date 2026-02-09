@@ -2,13 +2,13 @@
 
 Before deep diving into Async, Let's understand few concepts like Clases in JS bcuz this is what need to know before understanding Promises.
 
-## Class
+
 
 <details>
-  <summary> <b>Classes in JS</b> </summary>
+  <summary>🔻 <b>Classes in JS</b> </summary>
 
-<br/>
 
+## Class
 
 <details>
   <summary> #1 Primitive types : <code> number, string, boolean </code> </summary>
@@ -385,7 +385,7 @@ Rectangle.whoAmI(); // I'm static method
 </details>
 
 <details>
-  <summary> <b>Inheritance in classes</b> </summary>
+  <summary> 🔻 <b>Inheritance in classes</b> </summary>
 
 <br/>
 
@@ -758,7 +758,7 @@ from Interfaces we use `implements`. We will also see this in TypeScript.
 <!-----------Inheritance in classes----------------------->
 
 <details>
-  <summary> <b>Some more classes</b> </summary>
+  <summary>🔻 <b>Some more classes</b> </summary>
 
 <br/>
 
@@ -807,16 +807,15 @@ We will see Promises in details bcuz It is special class in JS.
 
 <!----------- Some more classes ----------------------->
 
+
+<details>
+  <summary> 🔻 <b>Promise class</b> </summary>
+
 ## Promise
 
 A **Promise** in JavaScript is an object that represents the `eventual completion` (or failure) of an asynchronous operation and its resulting value.
 
 Promises are used to handle asynchronous operations more effectively than traditional callback functions, providing a cleaner and more manageable way to deal with code that executes asynchronously, such as API calls, file I/O, or timers.
-
-<details>
-  <summary> <b>Promise class</b> </summary>
-
-<br/>
 
 Promise is an important class to know about. <br/>
 
@@ -943,7 +942,7 @@ function setTimeoutPromisified(ms){
 }
 ```
 
-</details>
+
 
 ### Using a function that returns a promise
 
@@ -1035,6 +1034,13 @@ function fsReadFilePromisified(filePath, encoding) {
 <img width="350" height="200" alt="image" src="https://github.com/user-attachments/assets/afdd7942-d92c-4a98-8d2d-c87cabec9b45" />
 
 > Note : Although both calling Asynchronously, both are same in performance, it's just that modern syntax is Promisified version.
+
+Real world Example of Promisified function is `fetch()`
+```js
+fetch("api.google.com");
+// what it returns is Promise.
+// So on this promise you can call .then().catch() and so on so forth
+```
 
 <!----------- Promise class ----------------------->
 
@@ -1214,7 +1220,7 @@ p.catch(callbackErr);
 </details>
 
 <details>
-	<summary> <b>Promises can be either in `Pending` state to `Resolve` or `Error` state</b> </summary>
+	<summary> <b>Promises can be either in Pending state to <code> </code>Resolve or `Error` state</b> </summary>
 
 
 <br/>
@@ -1279,13 +1285,14 @@ But amongst them there will be a priority of one get picked over the other.
 </details>
 
 <!----------- Questions in Promises ----------------------->
+<!----------- Promises Class ----------------------->
+</details>
 
-## Assignment for Promises
 
 <details>
-  <summary> Assignment : Code the <b>Promise class</b> on yourself </summary>
+  <summary> 🔻 Assignment : Code the <b>Promise class</b> on yourself </summary>
 
-<br/>
+## Assignment for Promises
 
 - Calling is Promise is easy, defining a Promise is where things get hard.
 - Your can code Promise Class by yourself. <br/>
@@ -1405,6 +1412,10 @@ setTimeoutPromisified(1000)
 </details>
 
 <!----------- Assignment for Promises ----------------------->
+
+<details>
+	<summary> 🔻 <b> Callback hell </b> </summary>
+
 
 ## Callback hell
 
@@ -1558,13 +1569,7 @@ setTimeoutPromisified(1000)
 
 </details>
 
-
-Real world Example of Promisified function is `fetch()`
-```js
-fetch("api.google.com");
-// what it returns is Promise.
-// So on this promise you can call .then().catch() and so on so forth
-```
+</details>
 
 <!----------- Callback Hell ----------------------->
 
